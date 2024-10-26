@@ -3,7 +3,7 @@ import Link from "next/link"
 
 export const NavigationBar = () => {
     return (
-        <aside className="grid gap-5">
+        <aside className="grid gap-5 w-56 h-full">
             <section className="flex gap-5 text-lg font-bold dark:text-white">
               <Image
                src={"/images/logo.jpg"} 

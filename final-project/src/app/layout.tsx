@@ -29,12 +29,14 @@ export default function RootLayout({
     <html lang="en">
       <Providers>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased dark:bg-black dark:text-white h-screen`}
       >
         
-        <div className="flex gap-10 p-10 dark:bg-black dark:text-white">
-        <NavigationBar></NavigationBar>
-        {children}
+        <div className="flex items-start gap-10 p-10 ">
+          <section className="w-56"> <NavigationBar></NavigationBar></section>
+      
+        <section className="grow">{children}</section>
+        
         </div> 
       </body>
       </Providers>
