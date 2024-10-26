@@ -1,7 +1,7 @@
 import { PodcastType } from "@/types/podcast";
 import Image from "next/image";
 
-async function getPodcast(params: any) {
+async function getPodcast(params: {id:number}) {
   const response = await fetch(
     "https://podcast-api.netlify.app/id/" + params.id
   );
@@ -12,7 +12,7 @@ async function getPodcast(params: any) {
   return data as PodcastType;
 }
 
-export default async function Podcast({ params }: { params: any }) {
+export default async function Podcast({ params }: { params: {id:number} }) {
   const podcast = await getPodcast(params);
   return (
     <div>

@@ -1,6 +1,6 @@
 import { PodcastCard } from "@/components/Podcast"
 import { PodcastType } from "@/types/podcast"
-import { title } from "process"
+
 
 async function getPodcasts() {
   const response = await fetch("https://podcast-api.netlify.app")  
@@ -19,7 +19,7 @@ async function getPodcasts() {
     { id: 8, name: "News" },
     { id: 9, name: "Kids and Family" }
   ];
-  return categories.map((category,index)=>{
+  return categories.map((category)=>{
     return {
      id:category.id,
      title:category.name,
