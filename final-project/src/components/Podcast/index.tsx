@@ -1,9 +1,11 @@
 import { PodcastType } from "@/types/podcast"
 import Image from "next/image"
+import Link from "next/link"
 
 
 export const PodcastCard=({podcast}:{podcast:PodcastType})=>{
     return (
+        <Link href={"/podcast/"+podcast.id}>
         <section className="grid gap-2">
             <Image className="rounded-lg"
             width={150}
@@ -15,5 +17,6 @@ export const PodcastCard=({podcast}:{podcast:PodcastType})=>{
              }
             </span>
         </section>
+        </Link>
     )
 }
