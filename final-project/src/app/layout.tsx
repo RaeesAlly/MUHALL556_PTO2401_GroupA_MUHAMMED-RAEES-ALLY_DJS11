@@ -4,6 +4,7 @@ import "./globals.css";
 import { NavigationBar } from "@/components/NavigationBar/Index";
 import { Providers } from "@/components/Providers";
 import { AudioPlayerProvider } from "./context/audioContext";
+import { FavoritesProvider } from "./context/favouriteContext";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -29,6 +30,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <Providers>
+        <FavoritesProvider >
         <AudioPlayerProvider>
           <body
             className={`${geistSans.variable} ${geistMono.variable} antialiased dark:bg-black dark:text-white h-screen`}
@@ -43,6 +45,7 @@ export default function RootLayout({
             </div>
           </body>
         </AudioPlayerProvider>
+        </FavoritesProvider>
       </Providers>
     </html>
   );

@@ -1,7 +1,7 @@
 import { PodcastType } from "@/types/podcast";
 import Image from "next/image";
-import { FaPlay } from "react-icons/fa";
 import { PodcastEpisode } from "./episode";
+import { FavouritePodcastButton } from "./favourites";
 
 async function getPodcast(params: { id: number }) {
   const response = await fetch(
@@ -17,7 +17,7 @@ async function getPodcast(params: { id: number }) {
 export default async function Podcast({ params }: { params: { id: number } }) {
   const podcast = await getPodcast(params);
   return (
-    <div>
+    <div className="pb-56">
       <h1 className="text-xl font-bold mb-10">Podcast</h1>
       <section className="items-start flex gap-10">
         <Image
@@ -30,6 +30,7 @@ export default async function Podcast({ params }: { params: { id: number } }) {
         <section className="grid gap-3 items-start justify-items-start">
           <h2 className="text-lg font-bold">{podcast.title}</h2>
           <p>{podcast.description}</p>
+          <FavouritePodcastButton podcast={podcast}></FavouritePodcastButton>
         </section>
       </section>
       <section className="flex gap-5 mt-10">
