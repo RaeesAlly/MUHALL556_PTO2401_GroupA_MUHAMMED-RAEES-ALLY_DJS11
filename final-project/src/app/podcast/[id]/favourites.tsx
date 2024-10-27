@@ -9,7 +9,7 @@ type FavouritePodcastButtonProps={
 }
 
 export const FavouritePodcastButton=({podcast}:FavouritePodcastButtonProps)=>{
-    const { favorites, addPodcast, removePodcast, clearFavorites, isFavorite } = useFavorites();
+    const { addPodcast, removePodcast, isFavorite } = useFavorites();
     return (
         <FaHeart 
         onClick={()=>{
