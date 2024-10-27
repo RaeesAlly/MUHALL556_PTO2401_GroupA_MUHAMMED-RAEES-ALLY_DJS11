@@ -1,7 +1,9 @@
 import { PodcastType } from "@/types/podcast";
 import Image from "next/image";
+import { FaPlay } from "react-icons/fa";
+import { PodcastEpisode } from "./episode";
 
-async function getPodcast(params: {id:number}) {
+async function getPodcast(params: { id: number }) {
   const response = await fetch(
     "https://podcast-api.netlify.app/id/" + params.id
   );
@@ -12,7 +14,7 @@ async function getPodcast(params: {id:number}) {
   return data as PodcastType;
 }
 
-export default async function Podcast({ params }: { params: {id:number} }) {
+export default async function Podcast({ params }: { params: { id: number } }) {
   const podcast = await getPodcast(params);
   return (
     <div>
@@ -42,31 +44,26 @@ export default async function Podcast({ params }: { params: {id:number} }) {
       <section className="gap-20 grid">
         {podcast.seasons.map((season, index: number) => (
           <section className="" key={index}>
-            <section className="flex gap-10">
+            <section className="flex gap-7">
               <Image
-                className="rounded-xl"
+                className="rounded-xl w-56 h-56"
                 height={150}
                 width={150}
                 src={season.image}
                 alt={season.title}
               ></Image>
+              <section>
               <section className="grid gap-3 items-start justify-items-start">
-                <h2 className="text-lg font-bold">{season.title}</h2>
+                <h2 className="text-xl font-bold">{season.title}</h2>
               </section>
-            </section>
-            <section className="ml-52">
-            <h2 className="text-lg font-bold">{"Episodes"}</h2>
-            {
-              season.episodes.map((episode,index:number)=>(
-                <section key={index} className="flex gap-10">
-              
-                <section className="grid gap-3 items-start justify-items-start">
-                  <h2 className="text-lg font-bold">{episode.title}</h2>
-                </section>
-              </section>
-              ))
-            }
 
+              <h2 className="text-lg font-bold mt-10">{"Episodes"}</h2>
+              <section key={index} className="grid gap-5 mt-10">
+                {season.episodes.map((episode, index: number) => (
+                 <PodcastEpisode key={index} episode={episode}></PodcastEpisode>
+                ))}
+              </section>
+              </section>
             </section>
           </section>
         ))}

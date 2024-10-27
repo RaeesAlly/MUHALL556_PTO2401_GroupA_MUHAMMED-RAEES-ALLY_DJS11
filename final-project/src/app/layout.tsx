@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { NavigationBar } from "@/components/NavigationBar/Index";
 import { Providers } from "@/components/Providers";
+import { AudioPlayerProvider } from "./context/audioContext";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -28,17 +29,20 @@ export default function RootLayout({
   return (
     <html lang="en">
       <Providers>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased dark:bg-black dark:text-white h-screen`}
-      >
-        
-        <div className="flex items-start gap-10 p-10 ">
-          <section className="w-56"> <NavigationBar></NavigationBar></section>
-      
-        <section className="grow">{children}</section>
-        
-        </div> 
-      </body>
+        <AudioPlayerProvider>
+          <body
+            className={`${geistSans.variable} ${geistMono.variable} antialiased dark:bg-black dark:text-white h-screen`}
+          >
+            <div className="flex items-start gap-10 p-10 ">
+              <section className="w-56">
+                {" "}
+                <NavigationBar></NavigationBar>
+              </section>
+
+              <section className="grow">{children}</section>
+            </div>
+          </body>
+        </AudioPlayerProvider>
       </Providers>
     </html>
   );
