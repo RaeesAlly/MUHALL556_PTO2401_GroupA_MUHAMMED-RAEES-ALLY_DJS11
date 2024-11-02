@@ -7,4 +7,5 @@ export type PodcastType={
     description:string;
     genres:number[];
     seasons:SeasonType[];
+    updated:Date;
 }

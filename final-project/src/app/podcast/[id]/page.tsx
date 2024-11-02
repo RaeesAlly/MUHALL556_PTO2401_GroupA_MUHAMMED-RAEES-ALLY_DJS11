@@ -2,6 +2,7 @@ import { PodcastType } from "@/types/podcast";
 import Image from "next/image";
 import { PodcastEpisode } from "./episode";
 import { FavouritePodcastButton } from "./favourites";
+import { formatDistance, formatRelative } from "date-fns";
 
 async function getPodcast(params: { id: number }) {
   const response = await fetch(
@@ -30,6 +31,7 @@ export default async function Podcast({ params }: { params: { id: number } }) {
         <section className="grid gap-3 items-start justify-items-start">
           <h2 className="text-lg font-bold">{podcast.title}</h2>
           <p>{podcast.description}</p>
+          <p>{formatDistance(podcast.updated, new Date())}</p>
           <FavouritePodcastButton podcast={podcast}></FavouritePodcastButton>
         </section>
       </section>
