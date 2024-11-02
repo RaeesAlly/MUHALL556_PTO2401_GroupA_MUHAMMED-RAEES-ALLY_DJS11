@@ -14,8 +14,7 @@ export const NavigationBar = () => {
               </Image>  
               Pea Pod 
             </section>
-            <Link href={""} className="dark:text-white">Dashboard</Link>
-            <Link href={"/search"}  className="dark:text-white">Search</Link>
+            <Link href={""} className="dark:text-white">Podcasts</Link>
             <Link href={"/favourites"}  className="dark:text-white">Favourites</Link>
         </aside>
     )
