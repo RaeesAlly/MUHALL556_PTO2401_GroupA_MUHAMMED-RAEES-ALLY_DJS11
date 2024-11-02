@@ -5,6 +5,8 @@ import { NavigationBar } from "@/components/NavigationBar/Index";
 import { Providers } from "@/components/Providers";
 import { AudioPlayerProvider } from "./context/audioContext";
 import { FavoritesProvider } from "./context/favouriteContext";
+import { Suspense } from "react";
+import Loading from "./loading";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -40,8 +42,10 @@ export default function RootLayout({
                 {" "}
                 <NavigationBar></NavigationBar>
               </section>
-
+               <Suspense fallback={<Loading></Loading>}>
               <section className="grow">{children}</section>
+              </Suspense>
+              
             </div>
           </body>
         </AudioPlayerProvider>
