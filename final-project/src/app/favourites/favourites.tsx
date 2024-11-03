@@ -2,14 +2,57 @@
 
 import Image from "next/image";
 import { useFavorites } from "../context/favouriteContext";
-import { formatDistance } from "date-fns";
+import { format, formatDistance } from "date-fns";
 import { PodcastEpisode } from "@/components/PodcastEpisode";
+import { useState } from "react";
+import { FaSortAlphaDown, FaSortAlphaUp } from "react-icons/fa";
 
 export const FavouriteEpisodeList = () => {
   const { favorites } = useFavorites();
+  const [isAscending, setIsAscending] = useState(true);
+  const [sortBy, setSortBy] = useState("Episode title");
+  const getSortedFavoriteEpisodes = () => {
+    return favorites
+      .sort((favoriteA, favoriteB) => {
+        if (sortBy==="Updated date"){
+
+            if (isAscending) {
+                return favoriteA.podcast.updated > favoriteB.podcast.updated ? -1 : 1;
+              }
+              return  favoriteA.podcast.updated > favoriteB.podcast.updated ? 1 : -1;   
+        }
+        if (isAscending) {
+          return favoriteA.episode.title < favoriteB.episode.title? -1 : 1;
+        }
+        return  favoriteA.episode.title< favoriteB.episode.title ? 1 : -1;
+      });
+  };
   return (
+    <section>
+        <section className="flex gap-5 mb-10">
+        {isAscending && (
+          <FaSortAlphaDown
+            size={30}
+            className="cursor-pointer"
+            onClick={() => setIsAscending(!isAscending)}
+          ></FaSortAlphaDown>
+        )}
+        {!isAscending && (
+          <FaSortAlphaUp
+            size={30}
+            className="cursor-pointer"
+            onClick={() => setIsAscending(!isAscending)}
+          ></FaSortAlphaUp>
+        )}
+        <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+          <option value={""}>All</option>
+          {["Episode title","Updated date"].map((value, index: number) => (
+            <option key={index} value={value}>{value}</option>
+          ))}
+        </select>
+        </section>
     <section className="grid gap-10">
-      {favorites.map((favorite, index: number) => (
+      {getSortedFavoriteEpisodes().map((favorite, index: number) => (
         <section key={index}>
           <section className="items-start flex gap-10">
             <Image
@@ -26,7 +69,8 @@ export const FavouriteEpisodeList = () => {
               <h3 className="text-lg font-bold">
                 Season: {favorite.season.title}
               </h3>
-              <p className="mb-1">{formatDistance(favorite.createdDate, new Date())}</p>
+              <p className="mb-1">Favorite date: {formatDistance(favorite.createdDate, new Date())}</p>
+              <p className="mb-1">Podcast updated date: {format(favorite.podcast.updated,"EEE, d MMM yyyy hh:mm" )}</p>
               <PodcastEpisode
                 key={index}
                 podcast={favorite.podcast}
@@ -37,6 +81,7 @@ export const FavouriteEpisodeList = () => {
           </section>
         </section>
       ))}
+    </section>
     </section>
   );
 };

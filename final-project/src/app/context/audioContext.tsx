@@ -83,6 +83,9 @@ import React, {
         setProgress(value);
       }
     }, []);
+ 
+  
+
   
     return (
       <AudioPlayerContext.Provider

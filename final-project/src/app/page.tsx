@@ -1,4 +1,4 @@
-import { PodcastCard } from "@/components/Podcast";
+
 import { PodcastList } from "@/components/PodcastList";
 import { PodcastType } from "@/types/podcast";
 
