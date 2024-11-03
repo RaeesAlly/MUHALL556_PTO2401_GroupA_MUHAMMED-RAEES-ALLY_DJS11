@@ -1,8 +1,7 @@
 import { PodcastType } from "@/types/podcast";
 import Image from "next/image";
-import { PodcastEpisode } from "./episode";
-import { FavouritePodcastButton } from "./favourites";
-import { formatDistance, formatRelative } from "date-fns";
+import { formatDistance } from "date-fns";
+import { PodcastEpisode } from "@/components/PodcastEpisode";
 
 async function getPodcast(params: { id: number }) {
   const response = await fetch(
@@ -32,7 +31,6 @@ export default async function Podcast({ params }: { params: { id: number } }) {
           <h2 className="text-lg font-bold">{podcast.title}</h2>
           <p>{podcast.description}</p>
           <p>{formatDistance(podcast.updated, new Date())}</p>
-          <FavouritePodcastButton podcast={podcast}></FavouritePodcastButton>
         </section>
       </section>
       <section className="flex gap-5 mt-10">
@@ -56,16 +54,21 @@ export default async function Podcast({ params }: { params: { id: number } }) {
                 alt={season.title}
               ></Image>
               <section>
-              <section className="grid gap-3 items-start justify-items-start">
-                <h2 className="text-xl font-bold">{season.title}</h2>
-              </section>
+                <section className="grid gap-3 items-start justify-items-start">
+                  <h2 className="text-xl font-bold">{season.title}</h2>
+                </section>
 
-              <h2 className="text-lg font-bold mt-10">{"Episodes"}</h2>
-              <section key={index} className="grid gap-5 mt-10">
-                {season.episodes.map((episode, index: number) => (
-                 <PodcastEpisode key={index} episode={episode}></PodcastEpisode>
-                ))}
-              </section>
+                <h2 className="text-lg font-bold mt-10">{"Episodes"}</h2>
+                <section key={index} className="grid gap-5 mt-10">
+                  {season.episodes.map((episode, index: number) => (
+                    <PodcastEpisode
+                      key={index}
+                      podcast={podcast}
+                      season={season}
+                      episode={episode}
+                    ></PodcastEpisode>
+                  ))}
+                </section>
               </section>
             </section>
           </section>
