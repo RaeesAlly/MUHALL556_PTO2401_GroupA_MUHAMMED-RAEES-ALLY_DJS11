@@ -8,7 +8,7 @@ import { useState } from "react";
 import { FaSortAlphaDown, FaSortAlphaUp } from "react-icons/fa";
 
 export const HistoryEpisodeList = () => {
-  const { history } = useHistory();
+  const { history,clearHistory } = useHistory();
   const [isAscending, setIsAscending] = useState(true);
   const [sortBy, setSortBy] = useState("Episode title");
   const getSortedhistoryEpisodes = () => {
@@ -49,6 +49,7 @@ export const HistoryEpisodeList = () => {
             <option key={index} value={value}>{value}</option>
           ))}
         </select>
+        <button onClick={()=>clearHistory()}>Clear History</button>
         </section>
     <section className="grid gap-10">
       {getSortedhistoryEpisodes().map((history, index: number) => (
