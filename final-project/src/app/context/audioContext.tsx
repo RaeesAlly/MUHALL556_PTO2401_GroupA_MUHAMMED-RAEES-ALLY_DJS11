@@ -69,17 +69,33 @@ import { useHistory } from './historyContext';
             createdDate:new Date()
           })
         };
+        const handleEnded = () => {
+          if(!audioObject)return
+          const historyId = audioObject?.podcast.id+"-"+audioObject?.season.season+"-"+audioObject?.episode.episode;
+          const completed = true;
+          trackEpisode({
+            historyId,
+            completed,
+            tracker:0,
+            episode:audioObject.episode,
+            season:audioObject.season,
+            podcast:audioObject.podcast,
+            createdDate:new Date()
+          })
+        };
         const handleLoadedMetadata = () => setDuration(audioRef.current!.duration);
   
         const audio = audioRef.current;
         audio.addEventListener('play', handlePlay);
         audio.addEventListener('pause', handlePause);
+        audio.addEventListener('ended', handleEnded);
         audio.addEventListener('timeupdate', handleTimeUpdate);
         audio.addEventListener('loadedmetadata', handleLoadedMetadata);
   
         return () => {
           audio.removeEventListener('play', handlePlay);
           audio.removeEventListener('pause', handlePause);
+          audio.removeEventListener('ended', handleEnded);
           audio.removeEventListener('timeupdate', handleTimeUpdate);
           audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
         };

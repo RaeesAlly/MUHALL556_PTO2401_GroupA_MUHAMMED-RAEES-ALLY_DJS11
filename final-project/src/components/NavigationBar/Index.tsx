@@ -17,6 +17,7 @@ export const NavigationBar = () => {
             </section>
             <Link href={"/"} className="dark:text-white">Podcasts</Link>
             <Link href={"/favourites"}  className="dark:text-white">Favourites</Link>
+            <Link href={"/history"}  className="dark:text-white">History</Link>
             <ThemeToggle></ThemeToggle>
         </aside>
     )
