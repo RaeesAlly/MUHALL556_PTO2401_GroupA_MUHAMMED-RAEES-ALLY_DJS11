@@ -45,7 +45,6 @@ export const FavouriteEpisodeList = () => {
           ></FaSortAlphaUp>
         )}
         <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
-          <option value={""}>All</option>
           {["Episode title","Updated date"].map((value, index: number) => (
             <option key={index} value={value}>{value}</option>
           ))}

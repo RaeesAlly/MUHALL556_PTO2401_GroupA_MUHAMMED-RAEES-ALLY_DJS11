@@ -23,13 +23,21 @@ const categories = [
 export const PodcastList: React.FC<PodcastListType> = ({ podcastList }) => {
   const [isAscending, setIsAscending] = useState(true);
   const [genre, setGenre] = useState("");
+  const [sortBy, setSortBy] = useState("Episode title");
   const getSortedAndFilteredPodcastList = () => {
     return podcastList
       .sort((podcastA, podcastB) => {
-        if (isAscending) {
-          return podcastA.title < podcastB.title ? -1 : 1;
-        }
-        return podcastA.title < podcastB.title ? 1 : -1;
+        if (sortBy==="Updated date"){
+
+          if (isAscending) {
+              return podcastA.updated > podcastB.updated ? -1 : 1;
+            }
+            return podcastA.updated >  podcastB.updated ? 1 : -1;   
+      }
+      if (isAscending) {
+        return podcastA.title <  podcastB.title? -1 : 1;
+      }
+      return  podcastA.title<  podcastB.title ? 1 : -1;
       })
       .filter((podcast) => {
         if (genre === "") {
@@ -55,6 +63,11 @@ export const PodcastList: React.FC<PodcastListType> = ({ podcastList }) => {
             onClick={() => setIsAscending(!isAscending)}
           ></FaSortAlphaUp>
         )}
+         <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+          {["Episode title","Updated date"].map((value, index: number) => (
+            <option key={index} value={value}>{value}</option>
+          ))}
+        </select>
         <select value={genre} onChange={(e) => setGenre(e.target.value)}>
           <option value={""}>All</option>
           {categories.map((genre, index: number) => (
