@@ -7,6 +7,7 @@ import { AudioPlayerProvider } from "./context/audioContext";
 import { FavoritesProvider } from "./context/favouriteContext";
 import { Suspense } from "react";
 import Loading from "./loading";
+import { HistoryProvider } from "./context/historyContext";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -32,6 +33,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <Providers>
+        <HistoryProvider>
         <FavoritesProvider >
         <AudioPlayerProvider>
           <body
@@ -50,6 +52,7 @@ export default function RootLayout({
           </body>
         </AudioPlayerProvider>
         </FavoritesProvider>
+        </HistoryProvider>
       </Providers>
     </html>
   );

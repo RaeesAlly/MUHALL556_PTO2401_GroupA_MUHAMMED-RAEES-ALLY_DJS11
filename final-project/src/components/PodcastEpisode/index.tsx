@@ -18,13 +18,14 @@ export const PodcastEpisode = ({
   episode,
 }: PodcastEpisodeProps) => {
   const { play, stop, isPlaying, url } = useAudioPlayer();
+  
   const isPlayingEpisode = isPlaying && url === episode.file;
   return (
     <section className="flex gap-3 ">
       {!isPlayingEpisode && (
         <FaPlay
           onClick={() => {
-            play(episode.file);
+            play({podcast,season,episode});
           }}
           size={30}
         ></FaPlay>

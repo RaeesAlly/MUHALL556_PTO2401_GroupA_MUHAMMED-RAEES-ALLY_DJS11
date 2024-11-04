@@ -1,5 +1,8 @@
 "use client"
 import AudioPlayer from '@/components/AudioPlayer';
+import { EpisodeType } from '@/types/episodes';
+import { PodcastType } from '@/types/podcast';
+import { SeasonType } from '@/types/seasons';
 import React, {
     createContext,
     useContext,
@@ -9,13 +12,19 @@ import React, {
     useEffect,
     ReactNode,
   } from 'react';
-  
+import { useHistory } from './historyContext';
+  type AudioType = {
+    podcast:PodcastType;
+    season:SeasonType;
+    episode:EpisodeType;
+  }
   interface AudioPlayerContextType {
     isPlaying: boolean;
     url:string | null;
+    audioObject:AudioType|undefined;
     progress: number;
     duration: number;
-    play: (url: string) => void;
+    play: (audio: AudioType) => void;
     pause: () => void;
     stop: () => void;
     setProgress: (value: number) => void;
@@ -35,16 +44,31 @@ import React, {
     const [isPlaying, setIsPlaying] = useState<boolean>(false);
     const [progress, setProgress] = useState<number>(0);
     const [duration, setDuration] = useState<number>(0);
+    const [audioObject, setAudioObject] = useState<AudioType>();
     const [audioUrl, setAudioUrl] = useState<string | null>(null);
     const audioRef = useRef<HTMLAudioElement | null>(null);
+    const {trackEpisode,getHistory} = useHistory()
   
     useEffect(() => {
       if (audioUrl) {
         audioRef.current = new Audio(audioUrl);
-  
         const handlePlay = () => setIsPlaying(true);
         const handlePause = () => setIsPlaying(false);
-        const handleTimeUpdate = () => setProgress(audioRef.current!.currentTime);
+        const handleTimeUpdate = () => {
+          setProgress(audioRef.current!.currentTime)
+          if(!audioObject)return
+          const historyId = audioObject?.podcast.id+"-"+audioObject?.season.season+"-"+audioObject?.episode.episode;
+          const completed = audioRef.current!.currentTime===duration;
+          trackEpisode({
+            historyId,
+            completed,
+            tracker:audioRef.current!.currentTime,
+            episode:audioObject.episode,
+            season:audioObject.season,
+            podcast:audioObject.podcast,
+            createdDate:new Date()
+          })
+        };
         const handleLoadedMetadata = () => setDuration(audioRef.current!.duration);
   
         const audio = audioRef.current;
@@ -62,8 +86,14 @@ import React, {
       }
     }, [audioUrl]);
   
-    const play = useCallback((url: string) => {
-      setAudioUrl(url);
+    const play = useCallback((audioObject: AudioType) => {
+      setAudioObject(audioObject)
+      setAudioUrl(audioObject.episode.file);
+      const historyId = audioObject?.podcast.id+"-"+audioObject?.season.season+"-"+audioObject?.episode.episode;
+      const history=getHistory( historyId)
+      if(history && audioRef.current&& !history.completed){
+        audioRef.current.currentTime=history.tracker;
+      }
       audioRef.current?.play();
     }, []);
   
@@ -80,16 +110,29 @@ import React, {
     const setAudioProgress = useCallback((value: number) => {
       if (audioRef.current) {
         audioRef.current.currentTime = value;
-        setProgress(value);
+       // setProgress(value);
+        console.log(value);
+        if(!audioObject)return
+        const historyId = audioObject?.podcast.id+"-"+audioObject?.season.season+"-"+audioObject?.episode.episode;
+        const completed = value===duration;
+        trackEpisode({
+          historyId,
+          completed,
+          tracker:value,
+          episode:audioObject.episode,
+          season:audioObject.season,
+          podcast:audioObject.podcast,
+          createdDate:new Date()
+        })
       }
-    }, []);
+    }, [audioObject]);
  
   
 
   
     return (
       <AudioPlayerContext.Provider
-        value={{ isPlaying, url:audioUrl, progress, duration, play, pause, stop, setProgress: setAudioProgress }}
+        value={{ isPlaying, url:audioUrl, progress,audioObject, duration, play, pause, stop, setProgress: setAudioProgress }}
       >
         {children}
         <AudioPlayer />
