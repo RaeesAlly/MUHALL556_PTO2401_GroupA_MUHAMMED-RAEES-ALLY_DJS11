@@ -1,5 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
+import { ThemeToggle } from "../ThemeToggle"
 
 export const NavigationBar = () => {
     return (
@@ -16,6 +17,7 @@ export const NavigationBar = () => {
             </section>
             <Link href={"/"} className="dark:text-white">Podcasts</Link>
             <Link href={"/favourites"}  className="dark:text-white">Favourites</Link>
+            <ThemeToggle></ThemeToggle>
         </aside>
     )
 }
