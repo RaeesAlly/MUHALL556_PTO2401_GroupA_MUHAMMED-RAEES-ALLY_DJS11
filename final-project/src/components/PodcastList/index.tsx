@@ -24,6 +24,7 @@ export const PodcastList: React.FC<PodcastListType> = ({ podcastList }) => {
   const [isAscending, setIsAscending] = useState(true);
   const [genre, setGenre] = useState("");
   const [sortBy, setSortBy] = useState("Episode title");
+  const [searchQuery,setSearchQuery] = useState("")
   const getSortedAndFilteredPodcastList = () => {
     return podcastList
       .sort((podcastA, podcastB) => {
@@ -40,10 +41,14 @@ export const PodcastList: React.FC<PodcastListType> = ({ podcastList }) => {
       return  podcastA.title<  podcastB.title ? 1 : -1;
       })
       .filter((podcast) => {
-        if (genre === "") {
-          return true;
+        let matchesSearch=true
+        if (searchQuery.length>0){
+        matchesSearch=podcast.title.toLowerCase().includes(searchQuery.toLowerCase())
         }
-        return podcast.genres.includes(Number(genre));
+        if (genre === "") {
+          return true && matchesSearch;
+        }
+        return podcast.genres.includes(Number(genre)) && matchesSearch;
       });
   };
   return (
@@ -74,6 +79,9 @@ export const PodcastList: React.FC<PodcastListType> = ({ podcastList }) => {
             <option value={genre.id}>{genre.name}</option>
           ))}
         </select>
+        <section>
+          <input type="text" placeholder="Search By Title" className="p-2" onChange={e=>setSearchQuery(e.target.value)}></input>
+        </section>
       </section>
       <section className="mt-10 grid grid-cols-5 gap-20">
         {getSortedAndFilteredPodcastList().map((podcast, index: number) => (
