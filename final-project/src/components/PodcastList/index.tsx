@@ -1,12 +1,12 @@
 "use client";
 
-import { PodcastType } from "@/types/podcast";
 import { PodcastCard } from "../Podcast";
 import { useState } from "react";
 import { FaSortAlphaDown, FaSortAlphaUp } from "react-icons/fa";
+import { PodcastPreviewType } from "@/types/preview";
 
 type PodcastListType = {
-  podcastList: PodcastType[];
+  podcastList: PodcastPreviewType[];
 };
 const categories = [
   { id: 1, name: "Personal Growth" },

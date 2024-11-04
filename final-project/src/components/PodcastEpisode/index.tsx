@@ -37,7 +37,7 @@ export const PodcastEpisode = ({
           size={30}
         ></FaStop>
       )}
-      <span className="">{episode.title}</span>
+      <span className="">{episode.episode}. {episode.title}</span>
       <FavouritePodcastEpisodeButton
         podcast={podcast}
         season={season}
