@@ -76,7 +76,7 @@ export const PodcastList: React.FC<PodcastListType> = ({ podcastList }) => {
         <select value={genre} onChange={(e) => setGenre(e.target.value)}>
           <option value={""}>All</option>
           {categories.map((genre, index: number) => (
-            <option value={genre.id}>{genre.name}</option>
+            <option key={index} value={genre.id}>{genre.name}</option>
           ))}
         </select>
         <section>

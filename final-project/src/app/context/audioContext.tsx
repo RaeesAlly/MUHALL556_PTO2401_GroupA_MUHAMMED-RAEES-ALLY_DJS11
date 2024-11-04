@@ -48,7 +48,8 @@ import { useHistory } from './historyContext';
     const [audioUrl, setAudioUrl] = useState<string | null>(null);
     const audioRef = useRef<HTMLAudioElement | null>(null);
     const {trackEpisode,getHistory} = useHistory()
-  
+    
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
       if (audioUrl) {
         audioRef.current = new Audio(audioUrl);
@@ -101,7 +102,8 @@ import { useHistory } from './historyContext';
         };
       }
     }, [audioUrl]);
-  
+    
+     // eslint-disable-next-line react-hooks/exhaustive-deps
     const play = useCallback((audioObject: AudioType) => {
       setAudioObject(audioObject)
       setAudioUrl(audioObject.episode.file);
@@ -122,12 +124,13 @@ import { useHistory } from './historyContext';
       audioRef.current!.currentTime = 0;
       setIsPlaying(false);
     }, []);
-  
+    
+     // eslint-disable-next-line react-hooks/exhaustive-deps
     const setAudioProgress = useCallback((value: number) => {
       if (audioRef.current) {
         audioRef.current.currentTime = value;
        // setProgress(value);
-        console.log(value);
+       
         if(!audioObject)return
         const historyId = audioObject?.podcast.id+"-"+audioObject?.season.season+"-"+audioObject?.episode.episode;
         const completed = value===duration;

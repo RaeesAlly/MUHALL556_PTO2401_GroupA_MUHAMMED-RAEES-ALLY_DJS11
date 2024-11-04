@@ -1,4 +1,4 @@
-import { SeasonType } from "./seasons";
+
 
 export type PodcastPreviewType={
     title:string;
