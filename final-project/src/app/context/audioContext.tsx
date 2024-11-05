@@ -111,7 +111,9 @@ import { useHistory } from './historyContext';
       const history=getHistory( historyId)
       if(history && audioRef.current&& !history.completed){
         audioRef.current.currentTime=history.tracker;
+        setProgress(history.tracker)
       }
+    
       audioRef.current?.play();
     }, []);
   

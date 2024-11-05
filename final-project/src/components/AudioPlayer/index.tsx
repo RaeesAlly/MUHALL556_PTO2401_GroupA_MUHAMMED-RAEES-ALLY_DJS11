@@ -24,7 +24,10 @@ const AudioPlayer: React.FC = () => {
           size={30}
         ></FaStop>
       )}
-
+      <section className="grow">
+        <p>Podcast: {audioObject.podcast.title}</p>
+        <p>{audioObject.episode.episode}. {audioObject.episode.title}</p>
+      </section>
       <input
         type="range"
         min={0}
