@@ -74,9 +74,11 @@ export const HistoryProvider = ({ children }: { children: ReactNode }) => {
   const getHistory = (historyId: string) => {
     const storedHistory = localStorage.getItem(HISTORY_KEY);
     if (storedHistory) {
-      return JSON.parse(storedHistory).find((pod:HistoryEpisodeType) => pod.historyId === historyId);
+      return JSON.parse(storedHistory).find(
+        (pod: HistoryEpisodeType) => pod.historyId === historyId
+      );
     }
-    return undefined
+    return undefined;
   };
 
   return (

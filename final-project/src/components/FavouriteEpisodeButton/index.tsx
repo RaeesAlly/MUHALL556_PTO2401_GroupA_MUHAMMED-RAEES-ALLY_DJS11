@@ -27,7 +27,9 @@ export const FavouritePodcastEpisodeButton = ({
         } else {
           addEpisode({
             favouriteId,
-            podcast,season,episode,
+            podcast,
+            season,
+            episode,
             createdDate: new Date(),
           });
         }

@@ -1,16 +1,22 @@
-'use client'; 
+"use client";
 
-import { EpisodeType } from '@/types/episodes';
-import { PodcastType } from '@/types/podcast';
-import { SeasonType } from '@/types/seasons';
-import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { EpisodeType } from "@/types/episodes";
+import { PodcastType } from "@/types/podcast";
+import { SeasonType } from "@/types/seasons";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  ReactNode,
+} from "react";
 type FavouriteEpisodeType = {
-  favouriteId:string;
-  episode:EpisodeType;
-  podcast:PodcastType;
-  season:SeasonType;
-  createdDate:Date;
-}
+  favouriteId: string;
+  episode: EpisodeType;
+  podcast: PodcastType;
+  season: SeasonType;
+  createdDate: Date;
+};
 interface FavoritesContextProps {
   favorites: FavouriteEpisodeType[];
   addEpisode: (episode: FavouriteEpisodeType) => void;
@@ -19,38 +25,43 @@ interface FavoritesContextProps {
   isFavorite: (favouriteId: string) => boolean;
 }
 
-const FavoritesContext = createContext<FavoritesContextProps | undefined>(undefined);
+const FavoritesContext = createContext<FavoritesContextProps | undefined>(
+  undefined
+);
 
-const FAVORITES_KEY = 'favouriteEpisodes';
+const FAVORITES_KEY = "favouriteEpisodes";
 
 export const FavoritesProvider = ({ children }: { children: ReactNode }) => {
   const [favorites, setFavorites] = useState<FavouriteEpisodeType[]>([]);
-  const [isRefreshed,setIsRefreshed] =useState(false)
+  const [isRefreshed, setIsRefreshed] = useState(false);
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       const storedFavorites = localStorage.getItem(FAVORITES_KEY);
       if (storedFavorites) {
         setFavorites(JSON.parse(storedFavorites));
       }
-      setIsRefreshed(true)
+      setIsRefreshed(true);
     }
   }, []);
 
   useEffect(() => {
-    if (typeof window !== 'undefined'&&isRefreshed) {
+    if (typeof window !== "undefined" && isRefreshed) {
       localStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites));
     }
-  }, [favorites,isRefreshed]);
+  }, [favorites, isRefreshed]);
 
   const addEpisode = (favouriteEpisode: FavouriteEpisodeType) => {
     setFavorites((prev) => {
-      if (prev.some((p) => p.favouriteId === favouriteEpisode.favouriteId)) return prev; // Avoid duplicates
+      if (prev.some((p) => p.favouriteId === favouriteEpisode.favouriteId))
+        return prev; // Avoid duplicates
       return [...prev, favouriteEpisode];
     });
   };
 
   const removeEpisode = (favouriteId: string) => {
-    setFavorites((prev) => prev.filter((pod) => pod.favouriteId !== favouriteId));
+    setFavorites((prev) =>
+      prev.filter((pod) => pod.favouriteId !== favouriteId)
+    );
   };
 
   const clearFavorites = () => {
@@ -63,12 +74,17 @@ export const FavoritesProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <FavoritesContext.Provider
-      value={{ favorites, addEpisode, removeEpisode, clearFavorites, isFavorite }}
+      value={{
+        favorites,
+        addEpisode,
+        removeEpisode,
+        clearFavorites,
+        isFavorite,
+      }}
     >
       {children}
     </FavoritesContext.Provider>
   );
 };
-export const useFavorites = () => useContext(FavoritesContext) as FavoritesContextProps
-
-
+export const useFavorites = () =>
+  useContext(FavoritesContext) as FavoritesContextProps;

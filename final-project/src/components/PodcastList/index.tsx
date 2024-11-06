@@ -24,26 +24,27 @@ export const PodcastList: React.FC<PodcastListType> = ({ podcastList }) => {
   const [isAscending, setIsAscending] = useState(true);
   const [genre, setGenre] = useState("");
   const [sortBy, setSortBy] = useState("Episode title");
-  const [searchQuery,setSearchQuery] = useState("")
+  const [searchQuery, setSearchQuery] = useState("");
   const getSortedAndFilteredPodcastList = () => {
     return podcastList
       .sort((podcastA, podcastB) => {
-        if (sortBy==="Updated date"){
-
+        if (sortBy === "Updated date") {
           if (isAscending) {
-              return podcastA.updated > podcastB.updated ? -1 : 1;
-            }
-            return podcastA.updated >  podcastB.updated ? 1 : -1;   
-      }
-      if (isAscending) {
-        return podcastA.title <  podcastB.title? -1 : 1;
-      }
-      return  podcastA.title<  podcastB.title ? 1 : -1;
+            return podcastA.updated > podcastB.updated ? -1 : 1;
+          }
+          return podcastA.updated > podcastB.updated ? 1 : -1;
+        }
+        if (isAscending) {
+          return podcastA.title < podcastB.title ? -1 : 1;
+        }
+        return podcastA.title < podcastB.title ? 1 : -1;
       })
       .filter((podcast) => {
-        let matchesSearch=true
-        if (searchQuery.length>0){
-        matchesSearch=podcast.title.toLowerCase().includes(searchQuery.toLowerCase())
+        let matchesSearch = true;
+        if (searchQuery.length > 0) {
+          matchesSearch = podcast.title
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase());
         }
         if (genre === "") {
           return true && matchesSearch;
@@ -68,19 +69,28 @@ export const PodcastList: React.FC<PodcastListType> = ({ podcastList }) => {
             onClick={() => setIsAscending(!isAscending)}
           ></FaSortAlphaUp>
         )}
-         <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
-          {["Episode title","Updated date"].map((value, index: number) => (
-            <option key={index} value={value}>{value}</option>
+        <select value={sortBy} onChange={(e) => setSortBy(e.target.value)}>
+          {["Episode title", "Updated date"].map((value, index: number) => (
+            <option key={index} value={value}>
+              {value}
+            </option>
           ))}
         </select>
         <select value={genre} onChange={(e) => setGenre(e.target.value)}>
           <option value={""}>All</option>
           {categories.map((genre, index: number) => (
-            <option key={index} value={genre.id}>{genre.name}</option>
+            <option key={index} value={genre.id}>
+              {genre.name}
+            </option>
           ))}
         </select>
         <section>
-          <input type="text" placeholder="Search By Title" className="p-2" onChange={e=>setSearchQuery(e.target.value)}></input>
+          <input
+            type="text"
+            placeholder="Search By Title"
+            className="p-2"
+            onChange={(e) => setSearchQuery(e.target.value)}
+          ></input>
         </section>
       </section>
       <section className="mt-10 grid grid-cols-5 gap-20">

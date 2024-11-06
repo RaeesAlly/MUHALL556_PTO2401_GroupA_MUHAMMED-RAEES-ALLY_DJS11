@@ -34,24 +34,23 @@ export default function RootLayout({
     <html lang="en">
       <Providers>
         <HistoryProvider>
-        <FavoritesProvider >
-        <AudioPlayerProvider>
-          <body
-            className={`${geistSans.variable} ${geistMono.variable} antialiased dark:bg-black dark:text-white h-screen`}
-          >
-            <div className="flex items-start gap-10 p-10 ">
-              <section className="w-56">
-                {" "}
-                <NavigationBar></NavigationBar>
-              </section>
-               <Suspense fallback={<Loading></Loading>}>
-              <section className="grow">{children}</section>
-              </Suspense>
-              
-            </div>
-          </body>
-        </AudioPlayerProvider>
-        </FavoritesProvider>
+          <FavoritesProvider>
+            <AudioPlayerProvider>
+              <body
+                className={`${geistSans.variable} ${geistMono.variable} antialiased dark:bg-black dark:text-white h-screen`}
+              >
+                <div className="flex items-start gap-10 p-10 ">
+                  <section className="w-56">
+                    {" "}
+                    <NavigationBar></NavigationBar>
+                  </section>
+                  <Suspense fallback={<Loading></Loading>}>
+                    <section className="grow">{children}</section>
+                  </Suspense>
+                </div>
+              </body>
+            </AudioPlayerProvider>
+          </FavoritesProvider>
         </HistoryProvider>
       </Providers>
     </html>
